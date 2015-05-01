@@ -22,9 +22,10 @@ namespace LJH.BillProject.BillProject
 
         #region 私有变量
         private string _ConStr = string.Format("SQLITE:Data Source={0}", Path.Combine(Application.StartupPath, "BillProject.db"));
-        private List<PaymentPanel> _months = new List<PaymentPanel>();
+        private List<PaymentPanel> _panels = new List<PaymentPanel>();
         private DateTime _LogFrom = DateTime.Now;
-        private int _Showmode = 0;
+        private DateTime? _LogTo = null;
+        private string _Title = string.Empty;
         #endregion
 
         #region 私有方法
@@ -61,52 +62,52 @@ namespace LJH.BillProject.BillProject
             }
         }
 
-        private void ShowThisMonth()
+        private void InitPanel(DateTime logFrom, DateTime? logTo, int mode)
         {
-            DateTime dt = DateTime.Now;
-            _LogFrom = new DateTime(dt.Year, dt.Month, 1);
-            _Showmode = 1;
-            InitPanel(_LogFrom, _Showmode);
+            PaymentLogSearchCondition con = new PaymentLogSearchCondition() { LogFrom = logFrom, LogEnd = logTo };
+            List<PaymentLog> items = new PaymentLogBLL(AppSettings.Current.ConnStr).GetItems(con).QueryObjects;
+            InitPanel(items, cmbShowmode.SelectedIndex >= 0 ? cmbShowmode.SelectedIndex : 0);
         }
 
-
-        private void ShowThisYear()
+        private void InitPanel(List<PaymentLog> items, int mode)
         {
-            DateTime dt = DateTime.Now;
-            _LogFrom = new DateTime(dt.Year, 1, 1);
-            _Showmode = 0;
-            InitPanel(_LogFrom, _Showmode);
-        }
-
-        private void InitPanel(DateTime logFrom, int mode)
-        {
-            foreach (PaymentPanel p in _months)
+            foreach (PaymentPanel p in _panels)
             {
                 this.flowLayoutPanel1.Controls.Remove(p);
             }
-            _months.Clear();
-            PaymentLogSearchCondition con = new PaymentLogSearchCondition() { LogFrom = logFrom };
-            List<PaymentLog> items = new PaymentLogBLL(AppSettings.Current.ConnStr).GetItems(con).QueryObjects;
+            _panels.Clear();
             if (items != null && items.Count > 0)
             {
                 IEnumerable<IGrouping<string, PaymentLog>> groups = null;
-                if (mode == 0) //按月
-                {
-                    groups = from item in items
-                             orderby item.PaymentDate descending
-                             group item by item.PaymentDate.ToString("yyyy年MM月");
-                }
-                else if (mode == 1) //按天
+                if (mode == 0) //按天
                 {
                     groups = from item in items
                              orderby item.PaymentDate descending
                              group item by item.PaymentDate.ToString("yyyy年MM月dd日");
                 }
-                else  //按年
+                else if (mode == 1) //按月
+                {
+                    groups = from item in items
+                             orderby item.PaymentDate descending
+                             group item by item.PaymentDate.ToString("yyyy年MM月");
+                }
+                else if (mode == 2)  //按年
                 {
                     groups = from item in items
                              orderby item.PaymentDate descending
                              group item by item.PaymentDate.ToString("yyyy年");
+                }
+                else if (mode == 3) //按支出项目
+                {
+                    groups = from item in items
+                             orderby item.Category ascending
+                             group item by item.Category;
+                }
+                else if (mode == 4) //按用户
+                {
+                    groups = from item in items
+                             orderby item.User ascending
+                             group item by item.User;
                 }
                 foreach (var group in groups)
                 {
@@ -115,11 +116,11 @@ namespace LJH.BillProject.BillProject
                     p.Amount = group.Sum(it => it.Deleted != null && it.Deleted.Value ? 0 : it.Amount);
                     p.Tag = group.ToList();
                     p.ContentDoubleClick += new EventHandler(p_DoubleClick);
-                    _months.Add(p);
+                    _panels.Add(p);
                     this.flowLayoutPanel1.Controls.Add(p);
                 }
             }
-            lblAmount.Text = string.Format("共消费 {0} 元", items != null && items.Count > 0 ? items.Sum(it => it.Deleted != null && it.Deleted.Value ? 0 : it.Amount) : 0);
+            lblAmount.Text = string.Format("{0}  共 {1} 项，消费 {2} 元", _Title, _panels.Count, items != null && items.Count > 0 ? items.Sum(it => it.Deleted != null && it.Deleted.Value ? 0 : it.Amount) : 0);
         }
         #endregion
 
@@ -129,7 +130,8 @@ namespace LJH.BillProject.BillProject
             this.Text += string.Format(" [{0}]", Application.ProductVersion);
             AppSettings.Current.ConnStr = _ConStr;
             UpGradeDataBase();
-            ShowThisMonth();
+            cmbShowmode.SelectedIndex = 0;
+            btnThisMonth.PerformClick();
         }
 
         private void btnAddLog_Click(object sender, EventArgs e)
@@ -137,17 +139,47 @@ namespace LJH.BillProject.BillProject
             FrmPaymentLogDetail frm = new FrmPaymentLogDetail();
             frm.IsAdding = true;
             frm.ShowDialog();
-            InitPanel(_LogFrom, _Showmode);
+            InitPanel(_LogFrom, _LogTo, cmbShowmode.SelectedIndex >= 0 ? cmbShowmode.SelectedIndex : 0);
         }
 
         private void btnThisMonth_Click(object sender, EventArgs e)
         {
-            ShowThisMonth();
+            DateTime dt = DateTime.Now;
+            _LogFrom = new DateTime(dt.Year, dt.Month, 1);
+            _LogTo = null;
+            _Title = btnThisMonth.Text;
+            cmbShowmode.SelectedIndex = 0;
+            InitPanel(_LogFrom, _LogTo, cmbShowmode.SelectedIndex >= 0 ? cmbShowmode.SelectedIndex : 0);
+        }
+
+        private void btnShowLastMonth_Click(object sender, EventArgs e)
+        {
+            DateTime dt = DateTime.Now;
+            _LogFrom = new DateTime(dt.Year, dt.Month, 1).AddMonths (-1);
+            _LogTo = new DateTime(dt.Year, dt.Month, 1).AddSeconds(-1);
+            _Title = btnShowLastMonth.Text;
+            cmbShowmode.SelectedIndex = 0;
+            InitPanel(_LogFrom, _LogTo, cmbShowmode.SelectedIndex >= 0 ? cmbShowmode.SelectedIndex : 0);
         }
 
         private void btnShowThisYear_Click(object sender, EventArgs e)
         {
-            ShowThisYear();
+            DateTime dt = DateTime.Now;
+            _LogFrom = new DateTime(dt.Year, 1, 1);
+            _LogTo = null;
+            _Title = btnShowThisYear.Text;
+            cmbShowmode.SelectedIndex = 1;
+            InitPanel(_LogFrom, _LogTo, cmbShowmode.SelectedIndex >= 0 ? cmbShowmode.SelectedIndex : 0);
+        }
+
+        private void btnShowLastYear_Click(object sender, EventArgs e)
+        {
+            DateTime dt = DateTime.Now;
+            _LogFrom = new DateTime(dt.Year, dt.Month, 1).AddMonths(-11);
+            _LogTo = null;
+            _Title = btnShowLastYear.Text;
+            cmbShowmode.SelectedIndex = 1;
+            InitPanel(_LogFrom, _LogTo, cmbShowmode.SelectedIndex >= 0 ? cmbShowmode.SelectedIndex : 0);
         }
 
         private void p_DoubleClick(object sender, EventArgs e)
@@ -158,15 +190,14 @@ namespace LJH.BillProject.BillProject
             frm.PaymentLogs = (sender as PaymentPanel).Tag as List<PaymentLog>;
             frm.Text = string.Format("{0}", p.Title);
             frm.ShowDialog();
-            InitPanel(_LogFrom, _Showmode);
+            InitPanel(_LogFrom, _LogTo, cmbShowmode.SelectedIndex >= 0 ? cmbShowmode.SelectedIndex : 0);
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             Environment.Exit(0);
         }
-        #endregion
-
+        
         private void btn_Report_Click(object sender, EventArgs e)
         {
             FrmPaymentLogReport frm = new FrmPaymentLogReport();
@@ -174,12 +205,10 @@ namespace LJH.BillProject.BillProject
             frm.ShowDialog();
         }
 
-        private void btnShowLastYear_Click(object sender, EventArgs e)
+        private void cmbShowmode_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DateTime dt = DateTime.Now;
-            _LogFrom = new DateTime(dt.Year, dt.Month, 1).AddMonths(-11);
-            _Showmode = 0;
-            InitPanel(_LogFrom, _Showmode);
+            InitPanel(_LogFrom, _LogTo, cmbShowmode.SelectedIndex >= 0 ? cmbShowmode.SelectedIndex : 0);
         }
+        #endregion
     }
 }

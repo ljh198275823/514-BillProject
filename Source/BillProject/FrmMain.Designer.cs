@@ -30,17 +30,22 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblAmount = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnAddLog = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnThisMonth = new System.Windows.Forms.ToolStripButton();
             this.btnShowThisYear = new System.Windows.Forms.ToolStripButton();
             this.btnShowLastYear = new System.Windows.Forms.ToolStripButton();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.cmbShowmode = new System.Windows.Forms.ToolStripComboBox();
             this.btn_Report = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnShowLastMonth = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -55,6 +60,12 @@
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // lblAmount
+            // 
+            this.lblAmount.Name = "lblAmount";
+            this.lblAmount.Size = new System.Drawing.Size(1091, 17);
+            this.lblAmount.Spring = true;
+            // 
             // toolStrip1
             // 
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(30, 30);
@@ -62,8 +73,13 @@
             this.btnAddLog,
             this.toolStripSeparator1,
             this.btnThisMonth,
+            this.btnShowLastMonth,
             this.btnShowThisYear,
             this.btnShowLastYear,
+            this.toolStripSeparator4,
+            this.toolStripTextBox1,
+            this.cmbShowmode,
+            this.toolStripSeparator3,
             this.btn_Report,
             this.toolStripSeparator2,
             this.toolStripButton1});
@@ -72,33 +88,6 @@
             this.toolStrip1.Size = new System.Drawing.Size(1106, 54);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 54);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 54);
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.AutoScroll = true;
-            this.flowLayoutPanel1.BackColor = System.Drawing.Color.White;
-            this.flowLayoutPanel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 54);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1106, 266);
-            this.flowLayoutPanel1.TabIndex = 2;
-            // 
-            // lblAmount
-            // 
-            this.lblAmount.Name = "lblAmount";
-            this.lblAmount.Size = new System.Drawing.Size(1091, 17);
-            this.lblAmount.Spring = true;
             // 
             // btnAddLog
             // 
@@ -109,6 +98,11 @@
             this.btnAddLog.Text = "记   账";
             this.btnAddLog.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnAddLog.Click += new System.EventHandler(this.btnAddLog_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 54);
             // 
             // btnThisMonth
             // 
@@ -140,6 +134,28 @@
             this.btnShowLastYear.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnShowLastYear.Click += new System.EventHandler(this.btnShowLastYear_Click);
             // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.AutoSize = false;
+            this.toolStripTextBox1.Enabled = false;
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(60, 54);
+            this.toolStripTextBox1.Text = "显示方式";
+            this.toolStripTextBox1.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // cmbShowmode
+            // 
+            this.cmbShowmode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbShowmode.Items.AddRange(new object[] {
+            "按日期",
+            "按月份",
+            "按年份",
+            "按支付类别",
+            "按消费者"});
+            this.cmbShowmode.Name = "cmbShowmode";
+            this.cmbShowmode.Size = new System.Drawing.Size(121, 54);
+            this.cmbShowmode.SelectedIndexChanged += new System.EventHandler(this.cmbShowmode_SelectedIndexChanged);
+            // 
             // btn_Report
             // 
             this.btn_Report.Image = global::LJH.BillProject.Properties.Resources.columns;
@@ -150,6 +166,11 @@
             this.btn_Report.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btn_Report.Click += new System.EventHandler(this.btn_Report_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 54);
+            // 
             // toolStripButton1
             // 
             this.toolStripButton1.Image = global::LJH.BillProject.Properties.Resources.delete;
@@ -159,6 +180,37 @@
             this.toolStripButton1.Text = "退   出";
             this.toolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.AutoScroll = true;
+            this.flowLayoutPanel1.BackColor = System.Drawing.Color.White;
+            this.flowLayoutPanel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 54);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1106, 266);
+            this.flowLayoutPanel1.TabIndex = 2;
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 54);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 54);
+            // 
+            // btnShowLastMonth
+            // 
+            this.btnShowLastMonth.Image = global::LJH.BillProject.Properties.Resources.month;
+            this.btnShowLastMonth.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnShowLastMonth.Name = "btnShowLastMonth";
+            this.btnShowLastMonth.Size = new System.Drawing.Size(60, 51);
+            this.btnShowLastMonth.Text = "显示上月";
+            this.btnShowLastMonth.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnShowLastMonth.Click += new System.EventHandler(this.btnShowLastMonth_Click);
             // 
             // FrmMain
             // 
@@ -197,5 +249,10 @@
         private System.Windows.Forms.ToolStripButton btn_Report;
         private System.Windows.Forms.ToolStripStatusLabel lblAmount;
         private System.Windows.Forms.ToolStripButton btnShowThisYear;
+        private System.Windows.Forms.ToolStripComboBox cmbShowmode;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton btnShowLastMonth;
     }
 }
