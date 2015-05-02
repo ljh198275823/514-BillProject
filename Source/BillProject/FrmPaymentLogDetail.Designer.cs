@@ -149,8 +149,8 @@
             // 
             // txtCategory
             // 
-            this.txtCategory.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
             this.txtCategory.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.txtCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.txtCategory.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.txtCategory.FormattingEnabled = true;
             this.txtCategory.Location = new System.Drawing.Point(88, 100);
