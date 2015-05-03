@@ -109,6 +109,12 @@ namespace LJH.BillProject.BillProject
                              orderby item.User ascending
                              group item by item.User;
                 }
+                else if (mode == 5)
+                {
+                    groups = from item in items
+                             orderby item.PaymentMode ascending
+                             group item by item.PaymentMode;
+                }
                 foreach (var group in groups)
                 {
                     PaymentPanel p = new PaymentPanel();

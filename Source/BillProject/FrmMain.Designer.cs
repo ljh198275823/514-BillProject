@@ -35,17 +35,17 @@
             this.btnAddLog = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnThisMonth = new System.Windows.Forms.ToolStripButton();
+            this.btnShowLastMonth = new System.Windows.Forms.ToolStripButton();
             this.btnShowThisYear = new System.Windows.Forms.ToolStripButton();
             this.btnShowLastYear = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.cmbShowmode = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.btn_Report = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnShowLastMonth = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -114,6 +114,16 @@
             this.btnThisMonth.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnThisMonth.Click += new System.EventHandler(this.btnThisMonth_Click);
             // 
+            // btnShowLastMonth
+            // 
+            this.btnShowLastMonth.Image = global::LJH.BillProject.Properties.Resources.month;
+            this.btnShowLastMonth.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnShowLastMonth.Name = "btnShowLastMonth";
+            this.btnShowLastMonth.Size = new System.Drawing.Size(60, 51);
+            this.btnShowLastMonth.Text = "显示上月";
+            this.btnShowLastMonth.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnShowLastMonth.Click += new System.EventHandler(this.btnShowLastMonth_Click);
+            // 
             // btnShowThisYear
             // 
             this.btnShowThisYear.Image = global::LJH.BillProject.Properties.Resources.month;
@@ -134,6 +144,11 @@
             this.btnShowLastYear.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnShowLastYear.Click += new System.EventHandler(this.btnShowLastYear_Click);
             // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 54);
+            // 
             // toolStripTextBox1
             // 
             this.toolStripTextBox1.AutoSize = false;
@@ -150,11 +165,17 @@
             "按日期",
             "按月份",
             "按年份",
-            "按支付类别",
-            "按消费者"});
+            "按消费类别",
+            "按消费者",
+            "按支付方式"});
             this.cmbShowmode.Name = "cmbShowmode";
             this.cmbShowmode.Size = new System.Drawing.Size(121, 54);
             this.cmbShowmode.SelectedIndexChanged += new System.EventHandler(this.cmbShowmode_SelectedIndexChanged);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 54);
             // 
             // btn_Report
             // 
@@ -191,26 +212,6 @@
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(1106, 266);
             this.flowLayoutPanel1.TabIndex = 2;
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 54);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 54);
-            // 
-            // btnShowLastMonth
-            // 
-            this.btnShowLastMonth.Image = global::LJH.BillProject.Properties.Resources.month;
-            this.btnShowLastMonth.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnShowLastMonth.Name = "btnShowLastMonth";
-            this.btnShowLastMonth.Size = new System.Drawing.Size(60, 51);
-            this.btnShowLastMonth.Text = "显示上月";
-            this.btnShowLastMonth.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnShowLastMonth.Click += new System.EventHandler(this.btnShowLastMonth_Click);
             // 
             // FrmMain
             // 
