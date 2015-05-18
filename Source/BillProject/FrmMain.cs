@@ -25,7 +25,9 @@ namespace LJH.BillProject.BillProject
         private List<PaymentPanel> _panels = new List<PaymentPanel>();
         private DateTime _LogFrom = DateTime.Now;
         private DateTime? _LogTo = null;
+        private List<PaymentLog> _ShowingLogs = null;
         private string _Title = string.Empty;
+        private int _DetailCount = 0;
         #endregion
 
         #region 私有方法
@@ -64,6 +66,8 @@ namespace LJH.BillProject.BillProject
 
         private void InitPanel(DateTime logFrom, DateTime? logTo, int mode)
         {
+            _ShowingLogs = null;
+            _DetailCount = 0;
             PaymentLogSearchCondition con = new PaymentLogSearchCondition() { LogFrom = logFrom, LogEnd = logTo };
             List<PaymentLog> items = new PaymentLogBLL(AppSettings.Current.ConnStr).GetItems(con).QueryObjects;
             InitPanel(items, cmbShowmode.SelectedIndex >= 0 ? cmbShowmode.SelectedIndex : 0);
@@ -109,7 +113,7 @@ namespace LJH.BillProject.BillProject
                              orderby item.User ascending
                              group item by item.User;
                 }
-                else if (mode == 5)
+                else if (mode == 5) //按支付方式
                 {
                     groups = from item in items
                              orderby item.PaymentMode ascending
@@ -145,7 +149,10 @@ namespace LJH.BillProject.BillProject
             FrmPaymentLogDetail frm = new FrmPaymentLogDetail();
             frm.IsAdding = true;
             frm.ShowDialog();
-            InitPanel(_LogFrom, _LogTo, cmbShowmode.SelectedIndex >= 0 ? cmbShowmode.SelectedIndex : 0);
+            if (_ShowingLogs == null)
+            {
+                InitPanel(_LogFrom, _LogTo, cmbShowmode.SelectedIndex >= 0 ? cmbShowmode.SelectedIndex : 0);
+            }
         }
 
         private void btnThisMonth_Click(object sender, EventArgs e)
@@ -190,13 +197,27 @@ namespace LJH.BillProject.BillProject
 
         private void p_DoubleClick(object sender, EventArgs e)
         {
-            PaymentPanel p = sender as PaymentPanel;
-            FrmPaymentLogMaster frm = new FrmPaymentLogMaster();
-            frm.StartPosition = FormStartPosition.CenterParent;
-            frm.PaymentLogs = (sender as PaymentPanel).Tag as List<PaymentLog>;
-            frm.Text = string.Format("{0}", p.Title);
-            frm.ShowDialog();
-            InitPanel(_LogFrom, _LogTo, cmbShowmode.SelectedIndex >= 0 ? cmbShowmode.SelectedIndex : 0);
+            if (_DetailCount == 3)
+            {
+                PaymentPanel p = sender as PaymentPanel;
+                FrmPaymentLogMaster frm = new FrmPaymentLogMaster();
+                frm.StartPosition = FormStartPosition.CenterParent;
+                frm.PaymentLogs = (sender as PaymentPanel).Tag as List<PaymentLog>;
+                frm.Text = string.Format("{0}", p.Title);
+                frm.ShowDialog();
+                InitPanel(_LogFrom, _LogTo, cmbShowmode.SelectedIndex >= 0 ? cmbShowmode.SelectedIndex : 0);
+            }
+            else
+            {
+                _Title += "-->" + (sender as PaymentPanel).Title;
+                _ShowingLogs = (sender as PaymentPanel).Tag as List<PaymentLog>;
+                int mode = cmbShowmode.SelectedIndex;
+                if (mode == 1 || mode == 2) mode--;
+                else if (mode == 0) mode = 3; //按支出项目
+                else mode = 0;   //按日显示
+                cmbShowmode.SelectedIndex = mode;
+                _DetailCount++;
+            }
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
@@ -213,7 +234,14 @@ namespace LJH.BillProject.BillProject
 
         private void cmbShowmode_SelectedIndexChanged(object sender, EventArgs e)
         {
-            InitPanel(_LogFrom, _LogTo, cmbShowmode.SelectedIndex >= 0 ? cmbShowmode.SelectedIndex : 0);
+            if (_ShowingLogs == null)
+            {
+                InitPanel(_LogFrom, _LogTo, cmbShowmode.SelectedIndex >= 0 ? cmbShowmode.SelectedIndex : 0);
+            }
+            else
+            {
+                InitPanel(_ShowingLogs, cmbShowmode.SelectedIndex >= 0 ? cmbShowmode.SelectedIndex : 0);
+            }
         }
         #endregion
     }
