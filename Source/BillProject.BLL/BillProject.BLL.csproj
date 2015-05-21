@@ -75,6 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlarmInfoBLL.cs" />
     <Compile Include="BLLBase.cs" />
     <Compile Include="PaymentLogBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

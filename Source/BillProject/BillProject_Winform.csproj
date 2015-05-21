@@ -114,6 +114,12 @@
     <Compile Include="Control\PaymentPanel.Designer.cs">
       <DependentUpon>PaymentPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmLogView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmLogView.designer.cs">
+      <DependentUpon>FrmLogView.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -171,6 +177,9 @@
     <None Include="Resources\month.png" />
     <None Include="Resources\Write.png" />
     <None Include="Resources\jizhang.png" />
+    <EmbeddedResource Include="FrmLogView.resx">
+      <DependentUpon>FrmLogView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmPaymentLogMaster.resx">
       <DependentUpon>FrmPaymentLogMaster.cs</DependentUpon>
     </EmbeddedResource>

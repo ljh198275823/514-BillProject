@@ -27,7 +27,6 @@ namespace LJH.BillProject.BillProject
         private DateTime? _LogTo = null;
         private List<PaymentLog> _ShowingLogs = null;
         private string _Title = string.Empty;
-        private int _DetailCount = 0;
         #endregion
 
         #region 私有方法
@@ -67,7 +66,6 @@ namespace LJH.BillProject.BillProject
         private void InitPanel(DateTime logFrom, DateTime? logTo, int mode)
         {
             _ShowingLogs = null;
-            _DetailCount = 0;
             PaymentLogSearchCondition con = new PaymentLogSearchCondition() { LogFrom = logFrom, LogEnd = logTo };
             List<PaymentLog> items = new PaymentLogBLL(AppSettings.Current.ConnStr).GetItems(con).QueryObjects;
             InitPanel(items, cmbShowmode.SelectedIndex >= 0 ? cmbShowmode.SelectedIndex : 0);
@@ -93,13 +91,13 @@ namespace LJH.BillProject.BillProject
                 {
                     groups = from item in items
                              orderby item.PaymentDate descending
-                             group item by item.PaymentDate.ToString("yyyy年MM月");
+                             group item by string.Format("{0:D4}年{1:D2}月", AppSettings.Current.YearOf(item.PaymentDate), AppSettings.Current.MonthOf(item.PaymentDate));
                 }
                 else if (mode == 2)  //按年
                 {
                     groups = from item in items
                              orderby item.PaymentDate descending
-                             group item by item.PaymentDate.ToString("yyyy年");
+                             group item by string.Format("{0:D4}年", AppSettings.Current.YearOf(item.PaymentDate));
                 }
                 else if (mode == 3) //按支出项目
                 {
@@ -157,8 +155,7 @@ namespace LJH.BillProject.BillProject
 
         private void btnThisMonth_Click(object sender, EventArgs e)
         {
-            DateTime dt = DateTime.Now;
-            _LogFrom = new DateTime(dt.Year, dt.Month, 1);
+            _LogFrom = AppSettings.Current.ThisMonthBegin;
             _LogTo = null;
             _Title = btnThisMonth.Text;
             cmbShowmode.SelectedIndex = 0;
@@ -167,9 +164,9 @@ namespace LJH.BillProject.BillProject
 
         private void btnShowLastMonth_Click(object sender, EventArgs e)
         {
-            DateTime dt = DateTime.Now;
-            _LogFrom = new DateTime(dt.Year, dt.Month, 1).AddMonths (-1);
-            _LogTo = new DateTime(dt.Year, dt.Month, 1).AddSeconds(-1);
+            DateTime dt = AppSettings.Current.ThisMonthBegin;
+            _LogFrom = dt.AddMonths(-1);
+            _LogTo = dt.AddSeconds(-1);
             _Title = btnShowLastMonth.Text;
             cmbShowmode.SelectedIndex = 0;
             InitPanel(_LogFrom, _LogTo, cmbShowmode.SelectedIndex >= 0 ? cmbShowmode.SelectedIndex : 0);
@@ -178,7 +175,7 @@ namespace LJH.BillProject.BillProject
         private void btnShowThisYear_Click(object sender, EventArgs e)
         {
             DateTime dt = DateTime.Now;
-            _LogFrom = new DateTime(dt.Year, 1, 1);
+            _LogFrom = new DateTime(AppSettings.Current.YearOf(dt), 1, AppSettings.Current.MonthStart);
             _LogTo = null;
             _Title = btnShowThisYear.Text;
             cmbShowmode.SelectedIndex = 1;
@@ -187,8 +184,8 @@ namespace LJH.BillProject.BillProject
 
         private void btnShowLastYear_Click(object sender, EventArgs e)
         {
-            DateTime dt = DateTime.Now;
-            _LogFrom = new DateTime(dt.Year, dt.Month, 1).AddMonths(-11);
+            DateTime dt = AppSettings.Current.ThisMonthBegin;
+            _LogFrom = dt.AddMonths(-11); //最近一年是从本月开始日期往前推11个月
             _LogTo = null;
             _Title = btnShowLastYear.Text;
             cmbShowmode.SelectedIndex = 1;
@@ -197,7 +194,14 @@ namespace LJH.BillProject.BillProject
 
         private void p_DoubleClick(object sender, EventArgs e)
         {
-            if (_DetailCount == 3)
+            int mode = cmbShowmode.SelectedIndex;
+            if (mode == 1 || mode == 2)
+            {
+                _Title += "-->" + (sender as PaymentPanel).Title;
+                _ShowingLogs = (sender as PaymentPanel).Tag as List<PaymentLog>;
+                cmbShowmode.SelectedIndex = mode - 1;
+            }
+            else
             {
                 PaymentPanel p = sender as PaymentPanel;
                 FrmPaymentLogMaster frm = new FrmPaymentLogMaster();
@@ -205,18 +209,6 @@ namespace LJH.BillProject.BillProject
                 frm.PaymentLogs = (sender as PaymentPanel).Tag as List<PaymentLog>;
                 frm.Text = string.Format("{0}", p.Title);
                 frm.ShowDialog();
-                InitPanel(_LogFrom, _LogTo, cmbShowmode.SelectedIndex >= 0 ? cmbShowmode.SelectedIndex : 0);
-            }
-            else
-            {
-                _Title += "-->" + (sender as PaymentPanel).Title;
-                _ShowingLogs = (sender as PaymentPanel).Tag as List<PaymentLog>;
-                int mode = cmbShowmode.SelectedIndex;
-                if (mode == 1 || mode == 2) mode--;
-                else if (mode == 0) mode = 3; //按支出项目
-                else mode = 0;   //按日显示
-                cmbShowmode.SelectedIndex = mode;
-                _DetailCount++;
             }
         }
 
@@ -242,6 +234,13 @@ namespace LJH.BillProject.BillProject
             {
                 InitPanel(_ShowingLogs, cmbShowmode.SelectedIndex >= 0 ? cmbShowmode.SelectedIndex : 0);
             }
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            FrmLogView frm = new FrmLogView();
+            frm.StartPosition = FormStartPosition.CenterParent;
+            frm.ShowDialog();
         }
         #endregion
     }

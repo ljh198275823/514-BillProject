@@ -32,6 +32,7 @@ namespace LJH.BillProject.Model
         private string _Categorys;
         private string _Users;
         private string _PaymentModes;
+        private int _MonthStart;
         #endregion
 
         #region 构造函数
@@ -52,6 +53,8 @@ namespace LJH.BillProject.Model
                     _Categorys = GetConfigContent("Categorys");
                     _Users = GetConfigContent("Users");
                     _PaymentModes = GetConfigContent("PaymentModes");
+                    int.TryParse(GetConfigContent("MonthStart"), out _MonthStart);
+                    if (_MonthStart <= 0 || _MonthStart > 31) _MonthStart = 1;
                 }
                 catch
                 {
@@ -122,6 +125,21 @@ namespace LJH.BillProject.Model
                 {
                     _PaymentModes = value;
                     SaveConfig("PaymentModes", value);
+                }
+            }
+        }
+        /// <summary>
+        /// 获取或设置每个月从哪天开始统计
+        /// </summary>
+        public int MonthStart
+        {
+            get { return _MonthStart; }
+            set
+            {
+                if (_MonthStart != value)
+                {
+                    _MonthStart = value;
+                    SaveConfig("MonthStart", value.ToString());
                 }
             }
         }
@@ -197,6 +215,43 @@ namespace LJH.BillProject.Model
                 }
             }
             return "";
+        }
+        #endregion
+
+        #region 时间日期相关的只读属性
+        /// <summary>
+        /// 获取本统计月开始的那天的日期
+        /// </summary>
+        public DateTime ThisMonthBegin
+        {
+            get
+            {
+                DateTime now = DateTime.Now;
+                return new DateTime(YearOf(now), MonthOf(now), AppSettings.Current.MonthStart);
+            }
+        }
+
+        /// <summary>
+        /// 获取当前时间的月份,由于统计月份有可能不是从1号开始,所以统计月份与实际月份有可能有区别
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public int MonthOf(DateTime dt)
+        {
+            DateTime monthStart = new DateTime(dt.Year, dt.Month, AppSettings.Current.MonthStart); //统计月分在本月的开始日期
+            if (dt >= monthStart) return dt.Month;
+            int ret = dt.Month - 1;
+            return ret > 0 ? ret : 12;
+        }
+        /// <summary>
+        /// 获取当前时间的年份,由于统计月份有可能不是从1号开始,所以统计年份与实际年份有可能有区别
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public int YearOf(DateTime dt)
+        {
+            DateTime yearStart = new DateTime(dt.Year, 1, AppSettings.Current.MonthStart); //统计月分在本月的开始日期
+            return dt >= yearStart ? dt.Year : dt.Year - 1;
         }
         #endregion
     }

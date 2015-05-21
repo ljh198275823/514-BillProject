@@ -46,6 +46,7 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -81,6 +82,7 @@
             this.cmbShowmode,
             this.toolStripSeparator3,
             this.btn_Report,
+            this.toolStripButton2,
             this.toolStripSeparator2,
             this.toolStripButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -213,6 +215,16 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(1106, 266);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.Image = global::LJH.BillProject.Properties.Resources.columns;
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(60, 51);
+            this.toolStripButton2.Text = "日志记录";
+            this.toolStripButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -255,5 +267,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripButton btnShowLastMonth;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
     }
 }

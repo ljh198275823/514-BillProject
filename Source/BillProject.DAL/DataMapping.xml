@@ -12,4 +12,13 @@
       <Column Name="Memo" Member="Memo" DbType="nvarchar(50)" UpdateCheck="Never"/>
     </Type>
   </Table>
+  <Table Name="AlarmInfo" Member="LJH.BillProject.Model.AlarmInfo">
+    <Type Name="LJH.BillProject.Model.AlarmInfo">
+      <Column Name="ID" Member="ID"  DbType="uniqueidentifier not null" IsPrimaryKey="true"/>
+      <Column Name="AlarmDateTime" Member="AlarmDateTime" DbType="datetime NOT NULL" UpdateCheck="Never"/>
+      <Column Name="AlarmType" Member="AlarmType" DbType="int not null" UpdateCheck="Never"/>
+      <Column Name="AlarmDescr" Member="AlarmDescr" DbType="nvarchar(300)" UpdateCheck="Never"/>
+      <Column Name="OperatorID" Member="OperatorID" DbType="nvarchar(50)" UpdateCheck="Never"/>
+    </Type>
+  </Table>
 </Database>
