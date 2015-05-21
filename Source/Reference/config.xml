@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <configuration>
   <appSettings>
-    <add key="ConnectString" value="yh( Op?iRv%2$\)cYoz?=U%xuun&gt;v]vGLYcvOUHYm!YhZC%9jga~xrz`TSI~  8kLs#\^o0\0I7L!fp-r#F:lj" />
+    <add key="ConnectString" value="kh(?p ??Rv? i\)RaYz evvxp!u TU%b4p$2OU?Ym~uQZS%9S)K~xtAaTD9U* -&amp;%fyV&gt;GpH?9|L!d.grxF:Fy" />
     <add key="DatabaseNeedUpgrade" value="True" />
-    <add key="Categorys" value="01-买菜,02-早餐,03-快餐,04-水果,05-超市,06-羊城通,07-话费,08-房租,09-车费,10-生活费,11-药品,25-其它" />
+    <add key="MonthStart" value="20" />
+    <add key="Categorys" value="01-买菜,02-早餐/快餐,04-水果,05-超市,06-羊城通,07-话费,08-房租,09-车费,10-生活费,11-药品,25-其它" />
     <add key="Users" value="三娟,建华" />
     <add key="PaymentModes" value="1-现金,2-刷银行卡,3-支付宝" />
     <add key="RememberLogID" value="True" />
