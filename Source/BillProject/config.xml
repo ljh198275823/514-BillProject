@@ -1,13 +1,12 @@
 <?xml version="1.0"?>
 <configuration>
   <appSettings>
-    <add key="ConnectString" value="" />
+    <add key="ConnectString" value="@$( vT 6R^&gt;R@\)+pIz =5Rxp!yGvTbt,^vHOU[Xm!&gt;AXy%LA~[~x5PdTDI-- -&amp;$^#X&amp;8^h*m2)!f#Xt`F!D@" />
     <add key="DatabaseNeedUpgrade" value="True" />
-    <add key="MonthStart" value="20"/>
-    <add key="DeletePWD" value=""/>
-    <add key="Categorys" value="买菜,话费,车费,羊城通,快餐,早餐,超市,房租," />
-    <add key ="Users" value="三娟,建华"/>
-    <add key="PaymentModes" value="现金,刷银行卡,支付宝"/>
+    <add key="MonthStart" value="20" />
+    <add key="Categorys" value="01-买菜,02-早餐/快餐,04-水果,05-超市,06-羊城通,07-话费,08-房租,09-车费,10-生活费,11-药品,25-其它" />
+    <add key="Users" value="三娟,建华" />
+    <add key="PaymentModes" value="1-现金,2-刷银行卡,3-支付宝" />
     <add key="RememberLogID" value="True" />
   </appSettings>
 </configuration>

@@ -45,7 +45,7 @@ namespace LJH.BillProject.Control
             set
             {
                 _Amount = value.Trim();
-                lblAmount.Text = value.Trim().ToString() + " 元";
+                lblAmount.Text = value.Trim().ToString();
             }
         }
 

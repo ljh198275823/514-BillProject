@@ -40,7 +40,7 @@
             this.lblTitle.ForeColor = System.Drawing.Color.White;
             this.lblTitle.Location = new System.Drawing.Point(0, 0);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(240, 23);
+            this.lblTitle.Size = new System.Drawing.Size(186, 23);
             this.lblTitle.TabIndex = 1;
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblTitle.DoubleClick += new System.EventHandler(this.lblTitle_DoubleClick);
@@ -52,7 +52,7 @@
             this.lblAmount.ForeColor = System.Drawing.Color.Red;
             this.lblAmount.Location = new System.Drawing.Point(0, 23);
             this.lblAmount.Name = "lblAmount";
-            this.lblAmount.Size = new System.Drawing.Size(240, 73);
+            this.lblAmount.Size = new System.Drawing.Size(186, 62);
             this.lblAmount.TabIndex = 2;
             this.lblAmount.Text = "0";
             this.lblAmount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -66,7 +66,7 @@
             this.Controls.Add(this.lblAmount);
             this.Controls.Add(this.lblTitle);
             this.Name = "PaymentPanel";
-            this.Size = new System.Drawing.Size(240, 96);
+            this.Size = new System.Drawing.Size(186, 85);
             this.DoubleClick += new System.EventHandler(this.PaymentPanel_DoubleClick);
             this.ResumeLayout(false);
 

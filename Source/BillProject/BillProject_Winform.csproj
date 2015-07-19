@@ -166,6 +166,7 @@
   <ItemGroup>
     <Content Include="config.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="money.ico" />
     <None Include="Resources\jizhang1.png" />
